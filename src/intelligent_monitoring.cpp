@@ -31,6 +31,8 @@ IntelligentMonitor::~IntelligentMonitor()
 {
 }
 
+static int base_num = 1;
+
 bool IntelligentMonitor::extract(cv::VideoCapture & cap, std::vector<char*>& obj_to_extract, const char * save_path, const char * prefix, int disappear_thresh, bool draw_box, float thresh, double* progress_rate, int interval_frame)
 {
     double fps = cap.get(CV_CAP_PROP_FPS);
@@ -43,8 +45,6 @@ bool IntelligentMonitor::extract(cv::VideoCapture & cap, std::vector<char*>& obj
 
     cv::Mat frame;
     cv::VideoWriter outputVideo;
-
-    int base_num = 1;
 
     if (_access(save_path, 0) == -1)
     {
@@ -82,6 +82,7 @@ bool IntelligentMonitor::extract(cv::VideoCapture & cap, std::vector<char*>& obj
         else
             appear_flag = pre_appear_flag;
         ++current_interval_frame;
+        pre_appear_flag = appear_flag;
 
         if (!appear_flag) ++count_frame;
         else count_frame = 0;
