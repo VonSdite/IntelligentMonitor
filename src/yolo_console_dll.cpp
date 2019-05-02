@@ -129,7 +129,9 @@ cv::Mat slMat2cvMat(sl::Mat &input) {
 cv::Mat zed_capture_rgb(sl::Camera &zed) {
     sl::Mat left;
     zed.retrieveImage(left);
-    return slMat2cvMat(left).clone();
+    cv::Mat left_rgb;
+    cv::cvtColor(slMat2cvMat(left), left_rgb, CV_RGBA2RGB);
+    return left_rgb;
 }
 
 cv::Mat zed_capture_3d(sl::Camera &zed) {
@@ -282,8 +284,7 @@ int main(int argc, char *argv[])
 
     float const thresh = (argc > 5) ? std::stof(argv[5]) : 0.2;
 
-    Detector detector;
-	detector.init_detector(cfg_file, weights_file);
+    Detector detector(cfg_file, weights_file);
 
     auto obj_names = objects_names_from_file(names_file);
     std::string out_videofile = "result.avi";

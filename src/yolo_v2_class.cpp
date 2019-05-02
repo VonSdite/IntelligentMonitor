@@ -105,11 +105,11 @@ struct detector_gpu_t {
 
 void Detector::init_detector(std::string cfg_filename, std::string weight_filename, int gpu_id)
 {
-	cur_gpu_id = gpu_id;
+    cur_gpu_id = gpu_id;
 	wait_stream = 0;
 #ifdef GPU
 	int old_gpu_index;
-	check_cuda(cudaGetDevice(&old_gpu_index));
+    check_cuda(cudaGetDevice(&old_gpu_index));
 #endif
 
 	detector_gpu_ptr = std::make_shared<detector_gpu_t>();
@@ -146,14 +146,13 @@ void Detector::init_detector(std::string cfg_filename, std::string weight_filena
 	for (j = 0; j < l.classes; ++j) detector_gpu.track_id[j] = 1;
 
 #ifdef GPU
-	check_cuda(cudaSetDevice(old_gpu_index));
+    check_cuda(cudaSetDevice(old_gpu_index));
 #endif
 }
 
 Detector::Detector()
 {
 }
-
 
 Detector::~Detector()
 {
